@@ -1,32 +1,27 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System.Data;
-using Web_Api.Data;
 using Web_Api.Data.RequestDTO;
-using Web_Api.Models;
 using Web_Api.Service.Interfaces;
 
 namespace Web_Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class WarehouseController : ControllerBase
+    public class InventoryCheckController : ControllerBase
     {
-        private readonly IWarehouseService _warehouseService;
+        private readonly IInventoryCheckService _inventoryCheckService;
 
-        public WarehouseController(IWarehouseService warehouseService)
+        public InventoryCheckController(IInventoryCheckService inventoryCheckService)
         {
-            _warehouseService = warehouseService;
+            _inventoryCheckService = inventoryCheckService;
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllWarehouses()
+        public async Task<IActionResult> GetAllInventoryChecks()
         {
             try
             {
-                var response = await _warehouseService.GetAllWarehouses();
+                var response = await _inventoryCheckService.GetAllInventoryChecks();
                 return Ok(response);
             }
             catch
@@ -36,11 +31,11 @@ namespace Web_Api.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetWarehouseById(long id)
+        public async Task<IActionResult> GetInventoryCheckById(long id)
         {
             try
             {
-                var response = await _warehouseService.GetWarehouseById(id);
+                var response = await _inventoryCheckService.GetInventoryCheckById(id);
                 return Ok(response);
             }
             catch
@@ -50,11 +45,11 @@ namespace Web_Api.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateWarehouse(WarehouseRequestDTO warehouseRequestDTO)
+        public async Task<IActionResult> CreateInventoryCheck(InventoryCheckRequestDTO inventoryCheckRequestDTO)
         {
             try
             {
-                var response = await _warehouseService.CreateWarehouse(warehouseRequestDTO);
+                var response = await _inventoryCheckService.CreateInventoryCheck(inventoryCheckRequestDTO);
                 return Ok(response);
             }
             catch
@@ -64,11 +59,11 @@ namespace Web_Api.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateWarehouse(long id, WarehouseRequestDTO warehouseRequestDTO)
+        public async Task<IActionResult> UpdateInventoryCheck(long id, InventoryCheckRequestDTO inventoryCheckRequestDTO)
         {
             try
             {
-                var response = await _warehouseService.UpdateWarehouse(id, warehouseRequestDTO);
+                var response = await _inventoryCheckService.UpdateInventoryCheck(id, inventoryCheckRequestDTO);
                 return Ok(response);
             }
             catch
@@ -78,11 +73,11 @@ namespace Web_Api.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteWarehouse(long id)
+        public async Task<IActionResult> DeleteInventoryCheck(long id)
         {
             try
             {
-                var response = await _warehouseService.DeleteWarehouse(id);
+                var response = await _inventoryCheckService.DeleteInventoryCheck(id);
                 return Ok(response);
             }
             catch

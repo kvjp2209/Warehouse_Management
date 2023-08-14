@@ -2,7 +2,7 @@
 {
     public class BatchRequestDTO
     {
-        public long BatchId { get; set; }
+        public long? BatchId { get; set; }
         public long ProductId { get; set; }
         public int? QuantityIn { get; set; }
         public int? QuantityOut { get; set; }
