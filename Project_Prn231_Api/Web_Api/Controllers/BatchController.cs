@@ -1,32 +1,27 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System.Data;
-using Web_Api.Data;
 using Web_Api.Data.RequestDTO;
-using Web_Api.Models;
 using Web_Api.Service.Interfaces;
 
 namespace Web_Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class WarehouseController : ControllerBase
+    public class BatchController : ControllerBase
     {
-        private readonly IWarehouseService _warehouseService;
+        private readonly IBatchService _batchService;
 
-        public WarehouseController(IWarehouseService warehouseService)
+        public BatchController(IBatchService batchService)
         {
-            _warehouseService = warehouseService;
+            _batchService = batchService;
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllWarehouses()
+        public async Task<IActionResult> GetAllBatches()
         {
             try
             {
-                var response = await _warehouseService.GetAllWarehouses();
+                var response = await _batchService.GetAllBatches();
                 return Ok(response);
             }
             catch
@@ -36,11 +31,11 @@ namespace Web_Api.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetWarehouseById(long id)
+        public async Task<IActionResult> GetBatchById(long id)
         {
             try
             {
-                var response = await _warehouseService.GetWarehouseById(id);
+                var response = await _batchService.GetBatchById(id);
                 return Ok(response);
             }
             catch
@@ -50,11 +45,11 @@ namespace Web_Api.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateWarehouse(WarehouseRequestDTO warehouseRequestDTO)
+        public async Task<IActionResult> CreateBatch(BatchRequestDTO batchRequestDTO)
         {
             try
             {
-                var response = await _warehouseService.CreateWarehouse(warehouseRequestDTO);
+                var response = await _batchService.CreateBatch(batchRequestDTO);
                 return Ok(response);
             }
             catch
@@ -64,11 +59,11 @@ namespace Web_Api.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateWarehouse(long id, WarehouseRequestDTO warehouseRequestDTO)
+        public async Task<IActionResult> UpdateBatch(long id, BatchRequestDTO batchRequestDTO)
         {
             try
             {
-                var response = await _warehouseService.UpdateWarehouse(id, warehouseRequestDTO);
+                var response = await _batchService.UpdateBatch(id, batchRequestDTO);
                 return Ok(response);
             }
             catch
@@ -78,11 +73,11 @@ namespace Web_Api.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteWarehouse(long id)
+        public async Task<IActionResult> DeleteBatch(long id)
         {
             try
             {
-                var response = await _warehouseService.DeleteWarehouse(id);
+                var response = await _batchService.DeleteBatch(id);
                 return Ok(response);
             }
             catch
