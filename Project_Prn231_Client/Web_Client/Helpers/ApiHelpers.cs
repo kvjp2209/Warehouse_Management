@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Web_Client.Helpers
 {
-    public class Helpers
+    public class ApiHelpers
     {
         public static async Task<TResponse?> GetAsync<TResponse>(string url, string accessToken)
         {
