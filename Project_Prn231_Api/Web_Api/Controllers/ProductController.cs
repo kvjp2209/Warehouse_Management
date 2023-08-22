@@ -24,9 +24,9 @@ namespace Web_Api.Controllers
                 var response = await _productService.GetAllProducts();
                 return Ok(response);
             }
-            catch
+            catch (Exception ex)
             {
-                return BadRequest();
+                return BadRequest(ex.ToString());
             }
         }
 
