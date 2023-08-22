@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
-using OJTMS_API.Data;
+using Web_Api.Data;
 using System;
 using System.Collections.Generic;
 using Web_Api.Commons;

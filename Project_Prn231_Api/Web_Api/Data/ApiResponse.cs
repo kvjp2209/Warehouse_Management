@@ -1,4 +1,4 @@
-﻿namespace OJTMS_API.Data
+﻿namespace Web_Api.Data
 {
     public class ApiResponse
     {

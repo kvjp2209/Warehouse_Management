@@ -45,6 +45,7 @@ namespace Web_Api.Data
             return base.SaveChangesAsync(cancellationToken);
         }
 
+        public virtual DbSet<Account> Accounts { get; set; } = null!;
         public virtual DbSet<Batch> Batches { get; set; } = null!;
         public virtual DbSet<Employee> Employees { get; set; } = null!;
         public virtual DbSet<InventoryCheck> InventoryChecks { get; set; } = null!;
@@ -66,6 +67,43 @@ namespace Web_Api.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Account>(entity =>
+            {
+                entity.ToTable("Account");
+
+                entity.Property(e => e.AccountId).HasColumnName("account_id");
+
+                entity.Property(e => e.CreatedBy)
+                    .HasMaxLength(50)
+                    .HasColumnName("created_by");
+
+                entity.Property(e => e.CreatedOn)
+                    .HasColumnType("datetime")
+                    .HasColumnName("created_on");
+
+                entity.Property(e => e.IsDeleted).HasColumnName("is_deleted");
+
+                entity.Property(e => e.ModifiedBy)
+                    .HasMaxLength(50)
+                    .HasColumnName("modified_by");
+
+                entity.Property(e => e.ModifiedOn)
+                    .HasColumnType("datetime")
+                    .HasColumnName("modified_on");
+
+                entity.Property(e => e.Password)
+                    .HasMaxLength(50)
+                    .HasColumnName("password");
+
+                entity.Property(e => e.Role)
+                    .HasMaxLength(50)
+                    .HasColumnName("role");
+
+                entity.Property(e => e.Username)
+                    .HasMaxLength(50)
+                    .HasColumnName("username");
+            });
+
             modelBuilder.Entity<Batch>(entity =>
             {
                 entity.ToTable("Batch");
@@ -132,6 +170,8 @@ namespace Web_Api.Data
                 entity.ToTable("Employee");
 
                 entity.Property(e => e.EmployeeId).HasColumnName("employee_id");
+
+                entity.Property(e => e.AccountId).HasColumnName("account_id");
 
                 entity.Property(e => e.Address)
                     .HasMaxLength(100)
@@ -337,6 +377,8 @@ namespace Web_Api.Data
                 entity.ToTable("Supplier");
 
                 entity.Property(e => e.SupplierId).HasColumnName("supplier_id");
+
+                entity.Property(e => e.AccountId).HasColumnName("account_id");
 
                 entity.Property(e => e.Address)
                     .HasMaxLength(100)

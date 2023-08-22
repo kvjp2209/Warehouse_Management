@@ -9,5 +9,8 @@
         public static readonly string THE_ITEM_HAS_EXISTING_DEPENDENCIES = "The Item Has Existing Dependencies";
         public static readonly string CAN_NOT_CHANGE_STATUS_FOR_IDS = "Can Not Change Status For IDs";
         public static readonly string CAN_NOT_DELETE_FOR_IDS = "Can Not Delete For IDs";
+
+        //Account
+        public static readonly string USER_NAME_EXISTED = "Username existed";
     }
 }

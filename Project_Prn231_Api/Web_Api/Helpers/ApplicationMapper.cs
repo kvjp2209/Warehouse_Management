@@ -36,6 +36,8 @@ namespace Web_Api.Helpers
 
             CreateMap<Warehouse, WarehouseResponseDTO>();
 
+            CreateMap<Account, AccountResponseDTO>();
+
             // Map RequestDTO to Models
             CreateMap<BatchRequestDTO, Batch>();
             CreateMap<EmployeeRequestDTO, Employee>();
@@ -45,6 +47,7 @@ namespace Web_Api.Helpers
             CreateMap<ProductRequestDTO, Product>();
             CreateMap<SupplierRequestDTO, Supplier>();
             CreateMap<WarehouseRequestDTO, Warehouse>();
+            CreateMap<AccountRequestDTO, Account>();
         }
     }
 }

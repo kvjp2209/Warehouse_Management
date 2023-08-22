@@ -6,7 +6,7 @@ using System.Data;
 using Web_Api.Data;
 using Web_Api.Data.RequestDTO;
 using Web_Api.Models;
-using Web_Api.Service.Interfaces;
+using Web_Api.Services.Interfaces;
 
 namespace Web_Api.Controllers
 {

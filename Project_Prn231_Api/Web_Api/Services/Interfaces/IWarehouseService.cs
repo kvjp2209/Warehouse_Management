@@ -1,8 +1,8 @@
-﻿using OJTMS_API.Data;
+﻿using Web_Api.Data;
 using Web_Api.Data.RequestDTO;
 using Web_Api.Data.ResponseDTO;
 
-namespace Web_Api.Service.Interfaces
+namespace Web_Api.Services.Interfaces
 {
     public interface IWarehouseService
     {

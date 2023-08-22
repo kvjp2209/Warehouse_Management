@@ -1,14 +1,14 @@
 ﻿using AutoMapper;
-using OJTMS_API.Data;
+using Web_Api.Data;
 using System;
 using System.Collections.Generic;
 using Web_Api.Data;
 using Web_Api.Data.RequestDTO;
 using Web_Api.Data.ResponseDTO;
 using Web_Api.Repositories.Interfaces;
-using Web_Api.Service.Interfaces;
+using Web_Api.Services.Interfaces;
 
-namespace Web_Api.Service
+namespace Web_Api.Services
 {
     public class OrderDetailService : IOrderDetailService
     {
