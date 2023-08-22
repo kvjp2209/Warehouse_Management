@@ -26,7 +26,11 @@ namespace Web_Api.Repositories
         {
             try
             {
-                return await _context.Batches.Where(x => x.IsDeleted.Equals(false)).OrderByDescending(x => x.CreatedOn).ToListAsync();
+                return await _context.Batches
+                    .Include(x => x.Product)
+                    .Include(x => x.Supplier)
+                    .Include(x => x.Warehouse)
+                    .Where(x => x.IsDeleted.Equals(false)).OrderByDescending(x => x.CreatedOn).ToListAsync();
             }
             catch (Exception ex)
             {
@@ -38,7 +42,11 @@ namespace Web_Api.Repositories
         {
             try
             {
-                return await _context.Batches.FirstOrDefaultAsync(x => x.BatchId == id && x.IsDeleted.Equals(false));
+                return await _context.Batches
+                    .Include(x => x.Product)
+                    .Include(x => x.Supplier)
+                    .Include(x => x.Warehouse)
+                    .FirstOrDefaultAsync(x => x.BatchId == id && x.IsDeleted.Equals(false));
             }
             catch (Exception ex)
             {

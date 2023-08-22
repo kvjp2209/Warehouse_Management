@@ -46,5 +46,44 @@ namespace Web_Client.Controllers
                     new { Success = false });
             }
         }
+
+        //edit employee
+        [HttpGet]
+        public async Task<IActionResult> Edit(long id, [FromQuery] bool? success = null)
+        {
+            var client = new ClientService(HttpContext);
+            var employee = await client.Get<EmployeeResponseDTO>($"http://localhost:5299/api/employee/{id}");
+            ViewData["success"] = success;
+            return View(employee);
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> OnPutEdit(long id, EmployeeRequestDTO p)
+        {
+            var client = new ClientService(HttpContext);
+            var res = await client.Put<ApiResponse>($"http://localhost:5299/api/employee/{id}", p);
+            if (res?.IsSuccess == true)
+            {
+                return RedirectToAction("Edit", "Employee",
+                    new { Success = true });
+            }
+            else
+            {
+                return RedirectToAction("Edit", "Employee",
+                    new { Success = false });
+            }
+        }
+
+        //delete employee
+        [HttpGet]
+        public async Task<IActionResult> Delete(long id)
+        {
+            var client = new ClientService(HttpContext);
+            await client.Delete<ApiResponse>($"http://localhost:5299/api/employee/{id}");
+
+            return RedirectToAction("Index", "Employee");
+
+        }
+
     }
 }

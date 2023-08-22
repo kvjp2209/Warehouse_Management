@@ -36,10 +36,10 @@
 </style>
 <body>
 
-    <h3>Create new employee</h3>
+    <h3>Edit</h3>
 
     <div>
-        <form action="/Employee/OnPostAdd" method="post">
+        <form action="/Order/OnPutEdit" method="post">
             <label for="EmployeeName">Employee Name:</label><br>
             <input required type="text" id="EmployeeName" name="EmployeeName"><br>
             <label for="Address">Address:</label><br>
@@ -54,13 +54,13 @@
         @if ((bool?)ViewData["success"] == true)
         {
             <div class="alert alert-success" role="alert">
-                Add successfully!
+                Edit successfully!
             </div>
         }
         else if ((bool?)ViewData["success"] == false)
         {
             <div class="alert alert-danger" role="alert">
-                Add failed!
+                Edit failed!
             </div>
         }
     </div>

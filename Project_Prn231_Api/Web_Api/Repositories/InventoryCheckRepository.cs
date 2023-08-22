@@ -26,7 +26,9 @@ namespace Web_Api.Repositories
         {
             try
             {
-                return await _context.InventoryChecks.Where(x => x.IsDeleted.Equals(false)).OrderByDescending(x => x.CreatedOn).ToListAsync();
+                return await _context.InventoryChecks
+                    .Include(x => x.Warehouse)
+                    .Where(x => x.IsDeleted.Equals(false)).OrderByDescending(x => x.CreatedOn).ToListAsync();
             }
             catch (Exception ex)
             {
@@ -38,7 +40,8 @@ namespace Web_Api.Repositories
         {
             try
             {
-                return await _context.InventoryChecks.FirstOrDefaultAsync(x => x.InventoryCheckId == id && x.IsDeleted.Equals(false));
+                return await _context.InventoryChecks
+                    .Include(x => x.Warehouse).FirstOrDefaultAsync(x => x.InventoryCheckId == id && x.IsDeleted.Equals(false));
             }
             catch (Exception ex)
             {

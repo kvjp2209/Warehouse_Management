@@ -1,4 +1,5 @@
 ﻿@using Web_Client.Data.ResponseDTO;
+@model WarehouseResponseDTO
 
 <!DOCTYPE html>
 <html>
@@ -36,31 +37,29 @@
 </style>
 <body>
 
-    <h3>Create new employee</h3>
+    <h3>Edit</h3>
 
     <div>
-        <form action="/Employee/OnPostAdd" method="post">
-            <label for="EmployeeName">Employee Name:</label><br>
-            <input required type="text" id="EmployeeName" name="EmployeeName"><br>
-            <label for="Address">Address:</label><br>
-            <input type="text" id="Address" name="Address">
-            <label for="PhoneNumber">Phone Number:</label><br>
-            <input required type="text" id="PhoneNumber" name="PhoneNumber">
-            <label for="Email">Email:</label><br>
-            <input required type="text" id="Email" name="Email">
-
+        <form action="/Warehouse/OnPutEdit" method="post">
+            <label for="name">Warehouse Name:</label><br>
+            <input required type="text" value="@Model.WarehouseName" id="WarehouseName" name="WarehouseName"><br>
+            <label for="description">Address:</label><br>
+            <input type="text" value="@Model.Address" id="Address" name="Address">
+            <label for="price">PhoneNumber:</label><br>
+            <input required type="text" value="@Model.PhoneNumber" id="PhoneNumber" name="PhoneNumber">
+           
             <input type="submit" value="Submit">
         </form>
         @if ((bool?)ViewData["success"] == true)
         {
             <div class="alert alert-success" role="alert">
-                Add successfully!
+                Edit successfully!
             </div>
         }
         else if ((bool?)ViewData["success"] == false)
         {
             <div class="alert alert-danger" role="alert">
-                Add failed!
+                Edit failed!
             </div>
         }
     </div>

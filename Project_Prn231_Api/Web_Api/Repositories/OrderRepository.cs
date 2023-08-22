@@ -26,7 +26,9 @@ namespace Web_Api.Repositories
         {
             try
             {
-                return await _context.Orders.Where(x => x.IsDeleted.Equals(false)).OrderByDescending(x => x.CreatedOn).ToListAsync();
+                return await _context.Orders
+                    .Include(x => x.Employee)
+                    .Where(x => x.IsDeleted.Equals(false)).OrderByDescending(x => x.CreatedOn).ToListAsync();
             }
             catch (Exception ex)
             {
@@ -38,7 +40,8 @@ namespace Web_Api.Repositories
         {
             try
             {
-                return await _context.Orders.FirstOrDefaultAsync(x => x.OrderId == id && x.IsDeleted.Equals(false));
+                return await _context.Orders
+                    .Include(x => x.Employee).FirstOrDefaultAsync(x => x.OrderId == id && x.IsDeleted.Equals(false));
             }
             catch (Exception ex)
             {

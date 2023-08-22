@@ -47,5 +47,43 @@ namespace Web_Client.Controllers
                     new { Success = false });
             }
         }
+
+        //edit new warehouse
+        [HttpGet]
+        public async Task<IActionResult> Edit(long id, [FromQuery] bool? success = null)
+        {
+            var client = new ClientService(HttpContext);
+            var warehouse = await client.Get<WarehouseResponseDTO>($"http://localhost:5299/api/warehouse/{id}");
+            ViewData["success"] = success;
+            return View(warehouse);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> OnPutEdit(long id, WarehouseRequestDTO p)
+        {
+            var client = new ClientService(HttpContext);
+            var res = await client.Put<ApiResponse>($"http://localhost:5299/api/warehouse/{id}", p);
+            if (res?.IsSuccess == true)
+            {
+                return RedirectToAction("Edit", "Warehouse",
+                    new { Success = true });
+            }
+            else
+            {
+                return RedirectToAction("Edit", "Warehouse",
+                    new { Success = false });
+            }
+        }
+
+        //delete warehouse
+        [HttpGet]
+        public async Task<IActionResult> Delete(long id)
+        {
+            var client = new ClientService(HttpContext);
+            await client.Delete<ApiResponse>($"http://localhost:5299/api/warehouse/{id}");
+
+            return RedirectToAction("Index", "Warehouse");
+
+        }
     }
 }

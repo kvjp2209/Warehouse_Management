@@ -52,11 +52,11 @@ namespace Web_Client.Services
             }
         }
 
-        public async Task<T?> Patch<T>(string relativeUrl, object? data)
+        public async Task<T?> Put<T>(string relativeUrl, object? data)
         {
             try
             {
-                var res = await _client.PatchAsync(relativeUrl, GetBody(data));
+                var res = await _client.PutAsync(relativeUrl, GetBody(data));
                 if ((int)res.StatusCode == 401) await _httpContext.SignOutAsync("CookieAuthentication");
                 var content = await res.EnsureSuccessStatusCode().Content.ReadAsStringAsync();
                 return JsonConvert.DeserializeObject<T>(content);
@@ -110,11 +110,11 @@ namespace Web_Client.Services
             }
         }
 
-        public async Task<string?> Patch(string relativeUrl, object? data)
+        public async Task<string?> Put(string relativeUrl, object? data)
         {
             try
             {
-                var res = await _client.PatchAsync(relativeUrl, GetBody(data));
+                var res = await _client.PutAsync(relativeUrl, GetBody(data));
                 if ((int)res.StatusCode == 401) await _httpContext.SignOutAsync("CookieAuthentication");
                 return await res.EnsureSuccessStatusCode().Content.ReadAsStringAsync();
             }
