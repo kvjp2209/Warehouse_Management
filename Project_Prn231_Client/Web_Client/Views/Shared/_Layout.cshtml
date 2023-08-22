@@ -12,30 +12,56 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Quản lý kho hàng</a>
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Warehouse Management</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Product" asp-action="Index">Product</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Order" asp-action="Index">Order</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Supplier" asp-action="Index">Supplier</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Warehouse" asp-action="Index">Warehouse</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Employee" asp-action="Index">Employee</a>
-                        </li>
-                    </ul>
-                </div>
+
+                @if (User.Identity.IsAuthenticated == true)
+                {
+                    <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+
+                        <ul class="navbar-nav flex-grow-1">
+
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Product" asp-action="Index">Product</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Order" asp-action="Index">Order</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Supplier" asp-action="Index">Supplier</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Warehouse" asp-action="Index">Warehouse</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Employee" asp-action="Index">Employee</a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index"
+                       class="link-danger">Logout</a>
+
+
+                }
+                else
+                {
+                    @if ((bool?)ViewData["login"] == true)
+                    {
+                        <a class="navbar-brand" asp-area="" asp-controller="Register" asp-action="Index"
+                           class="link-danger">Register</a>
+                    }
+                    else
+                    {
+                        <a class="navbar-brand" asp-area="" asp-controller="Login" asp-action="Index"
+                           class="link-danger">Login</a>
+                    }
+                }
+
+
             </div>
         </nav>
     </header>
@@ -46,9 +72,6 @@
     </div>
 
     <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2023 - Web_Client - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
