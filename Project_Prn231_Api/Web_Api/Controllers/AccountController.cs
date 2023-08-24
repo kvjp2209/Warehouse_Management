@@ -154,7 +154,7 @@ namespace Web_Api.Controllers
 
                 var claims = new List<Claim>
                 {
-                    new(ClaimTypes.Name, login.Username),
+                    new Claim(ClaimTypes.Name, login.Username),
                     new Claim(ClaimTypes.Role, user.Role)
                 };
 
@@ -171,7 +171,7 @@ namespace Web_Api.Controllers
                 var tokenHandler = new JwtSecurityTokenHandler().WriteToken(token);
                 Response.Cookies.Append("jwtToken", new JwtSecurityTokenHandler().WriteToken(token));
 
-                return Ok(new LoginResponseDTO { Successful = true, Token = tokenHandler, Role = user.Role });
+                return Ok(new LoginResponseDTO { Successful = true, Token = tokenHandler, Role = user.Role, UserId = user.AccountId });
             }
 
             return BadRequest("Invalid login attempt.");

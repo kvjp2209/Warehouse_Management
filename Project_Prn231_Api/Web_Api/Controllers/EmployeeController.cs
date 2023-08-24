@@ -44,6 +44,20 @@ namespace Web_Api.Controllers
             }
         }
 
+        [HttpGet("Account/{id}")]
+        public async Task<IActionResult> GetEmployeeByAccountId(long id)
+        {
+            try
+            {
+                var response = await _employeeService.GetEmployeeByAccountId(id);
+                return Ok(response);
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
         [HttpPost]
         public async Task<IActionResult> CreateEmployee(EmployeeRequestDTO employeeRequestDTO)
         {

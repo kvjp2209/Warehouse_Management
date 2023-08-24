@@ -99,5 +99,17 @@ namespace Web_Api.Repositories
                 throw new Exception(ex.Message);
             }
         }
+
+        public async Task<Employee> GetEmployeeByAccountId(long id)
+        {
+            try
+            {
+                return await _context.Employees.FirstOrDefaultAsync(x => x.AccountId == id && x.IsDeleted.Equals(false));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }

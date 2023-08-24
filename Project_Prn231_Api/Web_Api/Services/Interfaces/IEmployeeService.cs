@@ -11,5 +11,6 @@ namespace Web_Api.Services.Interfaces
         public Task<ApiResponse> CreateEmployee(EmployeeRequestDTO employeeRequestDTO);
         public Task<ApiResponse> UpdateEmployee(long id, EmployeeRequestDTO employeeRequestDTO);
         public Task<ApiResponse> DeleteEmployee(long id);
+        public Task<EmployeeResponseDTO> GetEmployeeByAccountId(long id);
     }
 }

@@ -57,6 +57,18 @@ namespace Web_Api.Services
             }
         }
 
+        public async Task<EmployeeResponseDTO> GetEmployeeByAccountId(long id)
+        {
+            try
+            {
+                return _mapper.Map<EmployeeResponseDTO>(await _employeeRepository.GetEmployeeByAccountId(id));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
         public async Task<EmployeeResponseDTO> GetEmployeeById(long id)
         {
             try

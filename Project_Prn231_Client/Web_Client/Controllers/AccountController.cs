@@ -67,22 +67,18 @@ namespace Web_Client.Controllers
                 HttpContext.Session.SetObjectAsJson("sessionAccount", sessionAccount);
 
                 var sessionRole = HttpContext.Session.GetObjectFromJson<LoginResponseDTO>("sessionAccount").Role;
-                ViewBag.role = sessionRole;
-                ViewBag.checkRoleAdmin = sessionRole.Equals("Admin");
-                ViewBag.checkRoleSupplier = sessionRole.Equals("Supplier");
-                ViewBag.checkRoleEmployee = sessionRole.Equals("Employee");
 
                 if (sessionAccount.Role.Equals("Admin"))
                 {
-                    return RedirectToAction("Index", "Supplier");
+                    return RedirectToAction("EmployeeManagement", "Admin");
                 }
                 else if (sessionAccount.Role.Equals("Supplier"))
                 {
-                    return RedirectToAction("Index", "Order");
+                    return RedirectToAction("Profile", "Supplier");
                 }
                 else if (sessionAccount.Role.Equals("Employee"))
                 {
-                    return RedirectToAction("Index", "Warehouse");
+                    return RedirectToAction("Profile", "Employee");
                 }
                 else
                 {
