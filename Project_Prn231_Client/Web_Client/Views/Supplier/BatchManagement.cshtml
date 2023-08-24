@@ -1,9 +1,9 @@
 ﻿@using Web_Client.Data.ResponseDTO;
 @{
-    ViewData["Title"] = "Employee";
-    Layout = "_Employee_Layout";
+    ViewData["Title"] = "Supplier";
+    Layout = "_Supplier_Layout";
 }
-@model List<ProductResponseDTO>
+@model List<BatchResponseDTO>
 
 <style>
     #customers {
@@ -33,41 +33,33 @@
             color: white;
         }
 </style>
-<h1>Product</h1>
+<h1>Batch</h1>
 <div>
-    <a asp-action="CreateProduct" class="btn btn-outline-success mb-3">+ Create New</a>
+    <a asp-action="CreateBatch" class="btn btn-outline-success mb-3">+ Create New</a>
 </div>
 <table id="customers">
     <tr>
-        <th>Product ID</th>
+        <th>Batch ID</th>
 
-        <th>Product Name</th>
+        <th>Product</th>
 
-        <th>Price</th>
+        <th>QuantityIn</th>
 
-        <th>Warehouse</th>
+        <th>ImportDate</th>
 
-        <th>Description</th>
-
-        <th>Action</th>
     </tr>
 
     @foreach (var product in Model)
     {
         <tr>
-            <td>@product.ProductId</td>
+            <td>@product.BatchId</td>
 
-            <td>@product.ProductName</td>
+            <td>@product.ProductResponseDTO.ProductName</td>
 
-            <td>@product.Price</td>
+            <td>@product.QuantityIn</td>
 
-            <td>@product.WarehouseResponseDTO.WarehouseName</td>
+            <td>@product.ImportDate</td>
 
-            <td>@product.Description</td>
-            <td>
-                <a asp-route-id="@product.ProductId" asp-action="UpdateProduct" class="btn btn-dark mt-2">Edit</a>
-                <a asp-route-id="@product.ProductId" asp-action="DeleteProduct" class="btn btn-dark mt-2">Delete</a>
-            </td>
         </tr>
     }
 
@@ -78,5 +70,3 @@
     <em>(No item here)</em>
 
 }
-
-

@@ -44,6 +44,20 @@ namespace Web_Api.Controllers
             }
         }
 
+        /*[HttpGet("Supplier/{id}")]
+        public async Task<IActionResult> GetProductsBySupplierId(long id)
+        {
+            try
+            {
+                var response = await _productService.GetProductsBySupplierId(id);
+                return Ok(response);
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }*/
+
         [HttpPost]
         public async Task<IActionResult> CreateProduct(ProductRequestDTO productRequestDTO)
         {

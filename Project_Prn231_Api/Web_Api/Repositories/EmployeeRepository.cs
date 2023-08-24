@@ -50,6 +50,10 @@ namespace Web_Api.Repositories
         {
             try
             {
+                if (IsUserNameExisted(employeeRequestDTO).Result)
+                {
+                    return new ApiResponse { IsSuccess = false, Message = MessageConstants.ITEM_EXISTED };
+                }
                 var employee = _mapper.Map<Employee>(employeeRequestDTO);
                 _context.Employees!.Add(employee);
                 await _context.SaveChangesAsync();
@@ -89,6 +93,10 @@ namespace Web_Api.Repositories
                 {
                     return new ApiResponse { IsSuccess = false, Message = MessageConstants.ITEM_NOT_EXISTED };
                 }
+                if (IsUserNameExisted(employeeRequestDTO).Result)
+                {
+                    return new ApiResponse { IsSuccess = false, Message = MessageConstants.ITEM_EXISTED };
+                }
                 employee = _mapper.Map(employeeRequestDTO, employee);
                 _context.Update(employee);
                 await _context.SaveChangesAsync();
@@ -105,6 +113,26 @@ namespace Web_Api.Repositories
             try
             {
                 return await _context.Employees.FirstOrDefaultAsync(x => x.AccountId == id && x.IsDeleted.Equals(false));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public async Task<bool> IsUserNameExisted(EmployeeRequestDTO employeeRequestDTO)
+        {
+            try
+            {
+                if (employeeRequestDTO.EmployeeId == null)
+                {
+                    return await _context.Employees.AnyAsync(x => x.EmployeeName.Equals(employeeRequestDTO.EmployeeName) && x.IsDeleted.Equals(false));
+                }
+                else
+                {
+                    return await _context.Employees.AnyAsync(x => !x.EmployeeId.Equals(employeeRequestDTO.EmployeeId) && x.EmployeeName.Equals(employeeRequestDTO.EmployeeName) && x.IsDeleted.Equals(false));
+                }
+                
             }
             catch (Exception ex)
             {

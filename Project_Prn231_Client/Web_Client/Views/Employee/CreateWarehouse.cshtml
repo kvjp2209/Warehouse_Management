@@ -1,7 +1,7 @@
 ﻿@using Web_Client.Data.ResponseDTO;
 @{
-    ViewData["Title"] = "Supplier";
-    Layout = "_Supplier_Layout";
+    ViewData["Title"] = "Employee";
+    Layout = "_Employee_Layout";
 }
 
 <style>
@@ -40,7 +40,7 @@
 <h3>Create new warehouse</h3>
 
 <div>
-    <form action="/Warehouse/OnPostAdd" method="post">
+    <form method="post">
         <label for="name">Warehouse Name:</label><br>
         <input required type="text" id="WarehouseName" name="WarehouseName"><br>
         <label for="description">Address:</label><br>

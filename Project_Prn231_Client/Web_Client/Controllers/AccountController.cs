@@ -66,7 +66,6 @@ namespace Web_Client.Controllers
                 }
                 HttpContext.Session.SetObjectAsJson("sessionAccount", sessionAccount);
 
-                var sessionRole = HttpContext.Session.GetObjectFromJson<LoginResponseDTO>("sessionAccount").Role;
 
                 if (sessionAccount.Role.Equals("Admin"))
                 {
@@ -74,10 +73,16 @@ namespace Web_Client.Controllers
                 }
                 else if (sessionAccount.Role.Equals("Supplier"))
                 {
+                    var supplier = await APIHelper.GetAsync<SupplierResponseDTO>(rootApiUrl + $"Supplier/Account/{sessionAccount.AccountId}", sessionAccount.Token);
+                    sessionAccount.UserId = supplier.SupplierId;
+                    HttpContext.Session.SetObjectAsJson("sessionAccount", sessionAccount);
                     return RedirectToAction("Profile", "Supplier");
                 }
                 else if (sessionAccount.Role.Equals("Employee"))
                 {
+                    var supplier = await APIHelper.GetAsync<EmployeeResponseDTO>(rootApiUrl + $"Employee/Account/{sessionAccount.AccountId}", sessionAccount.Token);
+                    sessionAccount.UserId = supplier.EmployeeId;
+                    HttpContext.Session.SetObjectAsJson("sessionAccount", sessionAccount);
                     return RedirectToAction("Profile", "Employee");
                 }
                 else
@@ -95,7 +100,21 @@ namespace Web_Client.Controllers
 
         public async Task<IActionResult> Logout()
         {
-            await HttpContext.SignOutAsync();
+            // Clear session
+            HttpContext.Session.Clear();
+
+            // Clear cache
+            Response.Headers["Cache-Control"] = "no-cache, no-store";
+            Response.Headers["Expires"] = DateTime.UtcNow.ToString("R");
+
+            // Clear cookies
+            foreach (var cookie in Request.Cookies.Keys)
+            {
+                Response.Cookies.Delete(cookie);
+            }
+
+            // Sign out user
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return RedirectToAction("Login");
         }
 

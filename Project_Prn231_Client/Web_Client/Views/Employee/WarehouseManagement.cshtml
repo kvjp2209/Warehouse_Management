@@ -1,7 +1,7 @@
 ﻿@using Web_Client.Data.ResponseDTO;
 @{
-    ViewData["Title"] = "Supplier";
-    Layout = "_Supplier_Layout";
+    ViewData["Title"] = "Employee";
+    Layout = "_Employee_Layout";
 }
 @model List<WarehouseResponseDTO>
 
@@ -35,7 +35,9 @@
 </style>
 <h1>Warehouse</h1>
 <div>
-    <a href="/Warehouse/Add" class="btn btn-outline-success mb-3">+ Create New</a>
+    <div>
+        <a asp-action="CreateWarehouse" class="btn btn-outline-success mb-3">+ Create New</a>
+    </div>
 </div>
 <table id="customers">
     <tr>
@@ -60,8 +62,8 @@
 
             <td>@product.PhoneNumber</td>
             <td>
-                <a href="/Warehouse/Delete/@product.WarehouseId" class="btn btn-dark mt-2">Delete</a>
-                <a href="/Warehouse/Edit/@product.WarehouseId" class="btn btn-dark mt-2">Edit</a>
+                <a asp-route-id="@product.WarehouseId" asp-action="UpdateWarehouse" class="btn btn-dark mt-2">Edit</a>
+                <a asp-route-id="@product.WarehouseId" asp-action="DeleteWarehouse" class="btn btn-dark mt-2">Delete</a>
             </td>
         </tr>
     }

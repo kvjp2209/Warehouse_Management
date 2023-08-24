@@ -44,6 +44,20 @@ namespace Web_Api.Controllers
             }
         }
 
+        [HttpGet("Supplier/{id}")]
+        public async Task<IActionResult> GetBatchBySupplierId(long id)
+        {
+            try
+            {
+                var response = await _batchService.GetBatchBySupplierId(id);
+                return Ok(response);
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
         [HttpPost]
         public async Task<IActionResult> CreateBatch(BatchRequestDTO batchRequestDTO)
         {

@@ -50,6 +50,10 @@ namespace Web_Api.Repositories
         {
             try
             {
+                if (IsWarehouseExisted(warehouseRequestDTO).Result)
+                {
+                    return new ApiResponse { IsSuccess = false, Message = MessageConstants.ITEM_EXISTED };
+                }
                 var warehouse = _mapper.Map<Warehouse>(warehouseRequestDTO);
                 _context.Warehouses!.Add(warehouse);
                 await _context.SaveChangesAsync();
@@ -89,10 +93,33 @@ namespace Web_Api.Repositories
                 {
                     return new ApiResponse { IsSuccess = false, Message = MessageConstants.ITEM_NOT_EXISTED };
                 }
+                if (IsWarehouseExisted(warehouseRequestDTO).Result)
+                {
+                    return new ApiResponse { IsSuccess = false, Message = MessageConstants.ITEM_EXISTED };
+                }
                 warehouse = _mapper.Map(warehouseRequestDTO, warehouse);
                 _context.Update(warehouse);
                 await _context.SaveChangesAsync();
                 return new ApiResponse { IsSuccess = true, Message = MessageConstants.SUCCESS };
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public async Task<bool> IsWarehouseExisted(WarehouseRequestDTO warehouseRequestDTO)
+        {
+            try
+            {
+                if (warehouseRequestDTO.WarehouseId == null)
+                {
+                    return await _context.Warehouses.AnyAsync(x => x.WarehouseName.Equals(warehouseRequestDTO.WarehouseName) && x.IsDeleted.Equals(false));
+                }
+                else
+                {
+                    return await _context.Warehouses.AnyAsync(x => !x.WarehouseId.Equals(warehouseRequestDTO.WarehouseId) && x.WarehouseName.Equals(warehouseRequestDTO.WarehouseName) && x.IsDeleted.Equals(false));
+                }
             }
             catch (Exception ex)
             {

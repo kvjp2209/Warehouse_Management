@@ -57,6 +57,18 @@ namespace Web_Api.Services
             }
         }
 
+        public async Task<SupplierResponseDTO> GetSupplierByAccountId(long id)
+        {
+            try
+            {
+                return _mapper.Map<SupplierResponseDTO>(await _supplierRepository.GetSupplierByAccountId(id));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
         public async Task<SupplierResponseDTO> GetSupplierById(long id)
         {
             try

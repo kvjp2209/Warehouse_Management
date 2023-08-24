@@ -15,7 +15,7 @@ builder.Services.AddSession(options =>
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-});
+}).AddCookie();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

@@ -9,6 +9,6 @@
         public DateTime? ImportDate { get; set; }
         public DateTime? ExportDate { get; set; }
         public long SupplierId { get; set; }
-        public long WarehouseId { get; set; }
+        public long? WarehouseId { get; set; }
     }
 }

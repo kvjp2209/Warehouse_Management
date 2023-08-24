@@ -37,10 +37,12 @@
         padding: 20px;
     }
 </style>
-<h3>Edit</h3>
+<h3>Profile</h3>
 
 <div>
-    <form action="/Supplier/OnPutEdit" method="post">
+    <form method="post">
+        <input type="number" value="@Model.SupplierId" id="SupplierId" name="SupplierId" hidden>
+        <input type="number" value="@Model.AccountId" id="AccountId" name="AccountId" hidden>
         <label for="name">Supplier Name:</label><br>
         <input required type="text" value="@Model.SupplierName" id="SupplierName" name="SupplierName"><br>
         <label for="description">Address:</label><br>

@@ -48,18 +48,18 @@
         <th>Action</th>
     </tr>
 
-    @foreach (var product in Model)
+    @foreach (var supplier in Model)
     {
         <tr>
-            <td>@product.SupplierId</td>
+            <td>@supplier.SupplierId</td>
 
-            <td>@product.SupplierName</td>
+            <td>@supplier.SupplierName</td>
 
-            <td>@product.Address</td>
+            <td>@supplier.Address</td>
 
-            <td>@product.PhoneNumber</td>
+            <td>@supplier.PhoneNumber</td>
             <td>
-                <a asp-route-id="@product.SupplierId" asp-action="DeleteSupplier" class="btn btn-dark mt-2">Delete</a>
+                <a asp-route-id="@supplier.SupplierId" asp-action="DeleteSupplier" class="btn btn-dark mt-2">Delete</a>
             </td>
         </tr>
     }

@@ -9,7 +9,7 @@
         public DateTime? ImportDate { get; set; }
         public DateTime? ExportDate { get; set; }
         public long SupplierId { get; set; }
-        public long WarehouseId { get; set; }
+        public long? WarehouseId { get; set; }
 
         public virtual ProductResponseDTO ProductResponseDTO { get; set; } = null!;
         public virtual SupplierResponseDTO SupplierResponseDTO { get; set; } = null!;

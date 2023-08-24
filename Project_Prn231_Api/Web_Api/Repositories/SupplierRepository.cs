@@ -50,6 +50,10 @@ namespace Web_Api.Repositories
         {
             try
             {
+                if (IsUserNameExisted(supplierRequestDTO).Result)
+                {
+                    return new ApiResponse { IsSuccess = false, Message = MessageConstants.ITEM_EXISTED };
+                }
                 var supplier = _mapper.Map<Supplier>(supplierRequestDTO);
                 _context.Suppliers!.Add(supplier);
                 await _context.SaveChangesAsync();
@@ -89,10 +93,47 @@ namespace Web_Api.Repositories
                 {
                     return new ApiResponse { IsSuccess = false, Message = MessageConstants.ITEM_NOT_EXISTED };
                 }
+                if (IsUserNameExisted(supplierRequestDTO).Result)
+                {
+                    return new ApiResponse { IsSuccess = false, Message = MessageConstants.ITEM_EXISTED };
+                }
                 supplier = _mapper.Map(supplierRequestDTO, supplier);
                 _context.Update(supplier);
                 await _context.SaveChangesAsync();
                 return new ApiResponse { IsSuccess = true, Message = MessageConstants.SUCCESS };
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public async Task<Supplier> GetSupplierByAccountId(long id)
+        {
+            try
+            {
+                return await _context.Suppliers.FirstOrDefaultAsync(x => x.AccountId == id && x.IsDeleted.Equals(false));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+
+        public async Task<bool> IsUserNameExisted(SupplierRequestDTO supplierRequestDTO)
+        {
+            try
+            {
+                if (supplierRequestDTO.SupplierId == null)
+                {
+                    return await _context.Suppliers.AnyAsync(x => x.SupplierName.Equals(supplierRequestDTO.SupplierName) && x.IsDeleted.Equals(false));
+                }
+                else
+                {
+                    return await _context.Suppliers.AnyAsync(x => !x.SupplierId.Equals(supplierRequestDTO.SupplierId) && x.SupplierName.Equals(supplierRequestDTO.SupplierName) && x.IsDeleted.Equals(false));
+                }
+                
             }
             catch (Exception ex)
             {

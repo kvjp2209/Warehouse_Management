@@ -44,6 +44,20 @@ namespace Web_Api.Controllers
             }
         }
 
+        [HttpGet("Account/{id}")]
+        public async Task<IActionResult> GetSupplierByAccountId(long id)
+        {
+            try
+            {
+                var response = await _supplierService.GetSupplierByAccountId(id);
+                return Ok(response);
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
         [HttpPost]
         public async Task<IActionResult> CreateSupplier(SupplierRequestDTO supplierRequestDTO)
         {

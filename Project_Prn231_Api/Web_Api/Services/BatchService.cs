@@ -69,6 +69,20 @@ namespace Web_Api.Services
             }
         }
 
+        public async Task<List<BatchResponseDTO>> GetBatchBySupplierId(long id)
+        {
+            try
+            {
+                var batchs = await _batchRepository.GetAllBatches();
+                batchs = batchs.Where(x => x.SupplierId == id).ToList();
+                return _mapper.Map<List<BatchResponseDTO>>(batchs);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
         public async Task<ApiResponse> UpdateBatch(long id, BatchRequestDTO batchRequestDTO)
         {
             try

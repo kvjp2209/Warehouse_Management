@@ -11,5 +11,6 @@ namespace Web_Api.Services.Interfaces
         public Task<ApiResponse> CreateBatch(BatchRequestDTO batchRequestDTO);
         public Task<ApiResponse> UpdateBatch(long id, BatchRequestDTO batchRequestDTO);
         public Task<ApiResponse> DeleteBatch(long id);
+        public Task<List<BatchResponseDTO>> GetBatchBySupplierId(long id);
     }
 }

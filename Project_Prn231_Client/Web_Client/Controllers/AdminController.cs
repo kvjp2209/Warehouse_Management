@@ -35,9 +35,29 @@ namespace Web_Client.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateSupplier(SupplierRequestDTO p)
         {
+            var sessionAccount = HttpContext.Session.GetObjectFromJson<LoginResponseDTO>("sessionAccount");
             var client = new ClientService(HttpContext);
+            var account = new AccountRequestDTO
+            {
+                Username = p.SupplierName,
+                Password = "12345",
+                Role = "Supplier"
+            };
+            string registerPath = rootApiUrl + "Account";
+            var registerAccount = await APIHelper.PostAsync<AccountRequestDTO, ApiResponse>(registerPath, account, sessionAccount.Token);
+
+            if(!registerAccount.IsSuccess)
+            {
+                BuildTempDataMessage(registerAccount);
+                return View();
+            }
+
+
+            p.AccountId = (long)registerAccount.Content;
+
             var res = await client.Post<ApiResponse>("http://localhost:5299/api/supplier", p);
-            BuildTempDataMessage(res);
+            BuildTempDataMessage(registerAccount);
+
             return View();
         }
 
@@ -77,9 +97,28 @@ namespace Web_Client.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateEmployee(EmployeeRequestDTO p)
         {
+            var sessionAccount = HttpContext.Session.GetObjectFromJson<LoginResponseDTO>("sessionAccount");
             var client = new ClientService(HttpContext);
+
+            var account = new AccountRequestDTO
+            {
+                Username = p.Email,
+                Password = "12345",
+                Role = "Employee"
+            };
+            string registerPath = rootApiUrl + "Account";
+            var registerAccount = await APIHelper.PostAsync<AccountRequestDTO, ApiResponse>(registerPath, account, sessionAccount.Token);
+
+
+            if (!registerAccount.IsSuccess)
+            {
+                BuildTempDataMessage(registerAccount);
+                return View();
+            }
+            p.AccountId = (long)registerAccount.Content;
             var res = await client.Post<ApiResponse>("http://localhost:5299/api/employee", p);
-            BuildTempDataMessage(res);
+
+            BuildTempDataMessage(registerAccount);
             return View();
         }
 

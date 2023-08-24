@@ -52,6 +52,10 @@ namespace Web_Api.Repositories
         {
             try
             {
+                if (IsProductExisted(productRequestDTO).Result)
+                {
+                    return new ApiResponse { IsSuccess = false, Message = MessageConstants.ITEM_EXISTED };
+                }
                 var product = _mapper.Map<Product>(productRequestDTO);
                 _context.Products!.Add(product);
                 await _context.SaveChangesAsync();
@@ -91,10 +95,34 @@ namespace Web_Api.Repositories
                 {
                     return new ApiResponse { IsSuccess = false, Message = MessageConstants.ITEM_NOT_EXISTED };
                 }
+                if (IsProductExisted(productRequestDTO).Result)
+                {
+                    return new ApiResponse { IsSuccess = false, Message = MessageConstants.ITEM_EXISTED };
+                }
                 product = _mapper.Map(productRequestDTO, product);
                 _context.Update(product);
                 await _context.SaveChangesAsync();
                 return new ApiResponse { IsSuccess = true, Message = MessageConstants.SUCCESS };
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public async Task<bool> IsProductExisted(ProductRequestDTO productRequestDTO)
+        {
+            try
+            {
+                if (productRequestDTO.ProductId == null)
+                {
+                    return await _context.Products.AnyAsync(x => x.ProductName.Equals(productRequestDTO.ProductName) && x.IsDeleted.Equals(false));
+                }
+                else
+                {
+                    return await _context.Products.AnyAsync(x => !x.ProductId.Equals(productRequestDTO.ProductId) && x.ProductName.Equals(productRequestDTO.ProductName) && x.IsDeleted.Equals(false));
+                }
+                
             }
             catch (Exception ex)
             {

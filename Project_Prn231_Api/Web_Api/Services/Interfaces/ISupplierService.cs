@@ -11,5 +11,6 @@ namespace Web_Api.Services.Interfaces
         public Task<ApiResponse> CreateSupplier(SupplierRequestDTO supplierRequestDTO);
         public Task<ApiResponse> UpdateSupplier(long id, SupplierRequestDTO supplierRequestDTO);
         public Task<ApiResponse> DeleteSupplier(long id);
+        public Task<SupplierResponseDTO> GetSupplierByAccountId(long id);
     }
 }

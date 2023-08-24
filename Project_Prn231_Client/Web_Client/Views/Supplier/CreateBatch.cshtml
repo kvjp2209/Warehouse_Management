@@ -1,9 +1,5 @@
 ﻿@using Web_Client.Data.ResponseDTO;
-@{
-    ViewData["Title"] = "Employee";
-    Layout = "_Employee_Layout";
-}
-@model WarehouseResponseDTO
+@model List<BatchResponseDTO>
 
 <style>
     input[type=text], select {
@@ -37,32 +33,33 @@
         padding: 20px;
     }
 </style>
-<h3>Edit</h3>
+
+<h3>Create new product</h3>
 
 <div>
     <form method="post">
-        <input type="number" value="@Model.WarehouseId" id="WarehouseId" name="WarehouseId" hidden><br>
-        <label for="name">Warehouse Name:</label><br>
-        <input required type="text" value="@Model.WarehouseName" id="WarehouseName" name="WarehouseName"><br>
-        <label for="description">Address:</label><br>
-        <input type="text" value="@Model.Address" id="Address" name="Address">
-        <label for="price">PhoneNumber:</label><br>
-        <input required type="text" value="@Model.PhoneNumber" id="PhoneNumber" name="PhoneNumber">
-
+        <label>Product:</label><br>
+        <select name="ProductId" id="ProductId">
+            @foreach (var i in ViewBag.Product)
+            {
+                <option value="@i.ProductId">@i.ProductName</option>
+            }
+        </select>
+        <label for="price">Quantity In:</label><br>
+        <input required type="number" id="QuantityIn" name="QuantityIn">
+        <input required type="date" id="ImportDate" name="ImportDate" />
         <input type="submit" value="Submit">
     </form>
     @if ((bool?)ViewData["success"] == true)
     {
         <div class="alert alert-success" role="alert">
-            Edit successfully!
+            Add successfully!
         </div>
     }
     else if ((bool?)ViewData["success"] == false)
     {
         <div class="alert alert-danger" role="alert">
-            Edit failed!
+            Add failed!
         </div>
     }
 </div>
-
-

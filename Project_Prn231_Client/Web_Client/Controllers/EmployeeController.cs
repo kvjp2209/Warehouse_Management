@@ -4,10 +4,11 @@ using Web_Client.Data.RequestDTO;
 using Web_Client.Data;
 using Web_Client.Data.ResponseDTO;
 using Web_Client.Services;
+using Web_Client.Helpers;
 
 namespace Web_Client.Controllers
 {
-    public class EmployeeController : Controller
+    public class EmployeeController : BaseController
     {
         private string rootApiUrl;
         private IConfiguration _configuration;
@@ -19,33 +20,23 @@ namespace Web_Client.Controllers
         }
 
         //edit employee
-        [HttpGet]
         public async Task<IActionResult> Profile(long id, [FromQuery] bool? success = null)
         {
-            var client = new ClientService(HttpContext);
-            var employee = await client.Get<EmployeeResponseDTO>($"http://localhost:5299/api/employee/{id}");
-            ViewData["success"] = success;
+            var sessionAccount = HttpContext.Session.GetObjectFromJson<LoginResponseDTO>("sessionAccount");
+
+            var employee = await APIHelper.GetAsync<EmployeeResponseDTO>(rootApiUrl + "Employee/Account/" + sessionAccount.AccountId, sessionAccount.Token);
             return View(employee);
         }
 
-        [HttpPut]
+        [HttpPost]
         public async Task<IActionResult> Profile(long id, EmployeeRequestDTO p)
         {
             var client = new ClientService(HttpContext);
-            var res = await client.Put<ApiResponse>($"http://localhost:5299/api/employee/{id}", p);
-            if (res?.IsSuccess == true)
-            {
-                return RedirectToAction("Edit", "Employee",
-                    new { Success = true });
-            }
-            else
-            {
-                return RedirectToAction("Edit", "Employee",
-                    new { Success = false });
-            }
+            var res = await client.Put<ApiResponse>($"http://localhost:5299/api/employee/{p.EmployeeId}", p);
+            BuildTempDataMessage(res);
+            return RedirectToAction("Profile");
         }
 
-        [HttpGet]
         public async Task<IActionResult> OrderManagement()
         {
             var client = new ClientService(HttpContext);
@@ -62,7 +53,7 @@ namespace Web_Client.Controllers
 
 
         //add new product
-        public async Task<IActionResult> CreateProject([FromQuery] bool? success = null)
+        public async Task<IActionResult> CreateProduct([FromQuery] bool? success = null)
         {
             var client = new ClientService(HttpContext);
             var listWarehouse = await client.Get<List<WarehouseResponseDTO>>("http://localhost:5299/api/warehouse");
@@ -71,20 +62,12 @@ namespace Web_Client.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateProject(ProductRequestDTO p)
+        public async Task<IActionResult> CreateProduct(ProductRequestDTO p)
         {
             var client = new ClientService(HttpContext);
             var res = await client.Post<ApiResponse>("http://localhost:5299/api/product", p);
-            if (res?.IsSuccess == true)
-            {
-                return RedirectToAction("Add", "Product",
-                    new { Success = true });
-            }
-            else
-            {
-                return RedirectToAction("Add", "Product",
-                    new { Success = false });
-            }
+            BuildTempDataMessage(res);
+            return RedirectToAction("CreateProduct");
         }
 
         //edit new product
@@ -99,20 +82,12 @@ namespace Web_Client.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> UpdateProduct(long id, ProductRequestDTO p)
+        public async Task<IActionResult> UpdateProduct(ProductRequestDTO p)
         {
             var client = new ClientService(HttpContext);
-            var res = await client.Put<ApiResponse>($"http://localhost:5299/api/product/{id}", p);
-            if (res?.IsSuccess == true)
-            {
-                return RedirectToAction("Edit", "Product",
-                    new { Success = true });
-            }
-            else
-            {
-                return RedirectToAction("Edit", "Product",
-                    new { Success = false });
-            }
+            var res = await client.Put<ApiResponse>($"http://localhost:5299/api/product/{p.ProductId}", p);
+            BuildTempDataMessage(res);
+            return RedirectToAction("UpdateProduct", new {id = p.ProductId});
         }
 
         //delete product
@@ -121,8 +96,7 @@ namespace Web_Client.Controllers
             var client = new ClientService(HttpContext);
             await client.Delete<ApiResponse>($"http://localhost:5299/api/product/{id}");
 
-            return RedirectToAction("Index", "Product");
-
+            return RedirectToAction("ProductManagement");
         }
 
         public async Task<IActionResult> WarehouseManagement()
@@ -146,16 +120,8 @@ namespace Web_Client.Controllers
         {
             var client = new ClientService(HttpContext);
             var res = await client.Post<ApiResponse>("http://localhost:5299/api/warehouse", p);
-            if (res?.IsSuccess == true)
-            {
-                return RedirectToAction("Add", "Warehouse",
-                    new { Success = true });
-            }
-            else
-            {
-                return RedirectToAction("Add", "Warehouse",
-                    new { Success = false });
-            }
+            BuildTempDataMessage(res);
+            return RedirectToAction("CreateWarehouse");
         }
 
         //edit new warehouse
@@ -168,30 +134,21 @@ namespace Web_Client.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> UpdateWarehouse(long id, WarehouseRequestDTO p)
+        public async Task<IActionResult> UpdateWarehouse(WarehouseRequestDTO p)
         {
             var client = new ClientService(HttpContext);
-            var res = await client.Put<ApiResponse>($"http://localhost:5299/api/warehouse/{id}", p);
-            if (res?.IsSuccess == true)
-            {
-                return RedirectToAction("Edit", "Warehouse",
-                    new { Success = true });
-            }
-            else
-            {
-                return RedirectToAction("Edit", "Warehouse",
-                    new { Success = false });
-            }
+            var res = await client.Put<ApiResponse>($"http://localhost:5299/api/warehouse/{p.WarehouseId}", p);
+            BuildTempDataMessage(res);
+            return RedirectToAction("UpdateWarehouse", new { id = p.WarehouseId });
         }
 
         //delete warehouse
-        [HttpGet]
         public async Task<IActionResult> DeleteWarehouse(long id)
         {
             var client = new ClientService(HttpContext);
             await client.Delete<ApiResponse>($"http://localhost:5299/api/warehouse/{id}");
 
-            return RedirectToAction("Index", "Warehouse");
+            return RedirectToAction("WarehouseManagement");
 
         }
     }

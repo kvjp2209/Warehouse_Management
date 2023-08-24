@@ -74,7 +74,7 @@ namespace Web_Api.Controllers
         }
 
         [HttpGet("{id}")]
-        //[Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetAccountById(long id)
         {
             try
@@ -89,7 +89,7 @@ namespace Web_Api.Controllers
         }
 
         [HttpPost]
-        //[Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> CreateAccount(AccountRequestDTO accountRequestDTO)
         {
             try
@@ -104,7 +104,7 @@ namespace Web_Api.Controllers
         }
 
         [HttpPut("{id}")]
-        //[Authorize(Roles = "Employee,Supplier,Admin")]
+        [Authorize(Roles = "Employee,Supplier,Admin")]
         public async Task<IActionResult> UpdateAccount(long id, AccountRequestDTO accountRequestDTO)
         {
             try
@@ -119,7 +119,7 @@ namespace Web_Api.Controllers
         }
 
         [HttpDelete("{id}")]
-        //[Authorize(Roles = "Employee,Supplier,Admin")]
+        [Authorize(Roles = "Employee,Supplier,Admin")]
         public async Task<IActionResult> DeleteAccount(long id)
         {
             try
@@ -171,7 +171,7 @@ namespace Web_Api.Controllers
                 var tokenHandler = new JwtSecurityTokenHandler().WriteToken(token);
                 Response.Cookies.Append("jwtToken", new JwtSecurityTokenHandler().WriteToken(token));
 
-                return Ok(new LoginResponseDTO { Successful = true, Token = tokenHandler, Role = user.Role, UserId = user.AccountId });
+                return Ok(new LoginResponseDTO { Successful = true, Token = tokenHandler, Role = user.Role, AccountId = user.AccountId });
             }
 
             return BadRequest("Invalid login attempt.");
