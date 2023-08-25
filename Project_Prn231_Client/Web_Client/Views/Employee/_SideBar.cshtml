@@ -31,6 +31,11 @@
             </a>
         </li>
         <li class="nav-item">
+            <a class="@(action == "BatchManagement" ? "active active-sidebar" : "") side-bar-item list-group-item list-group-item-action border-top-0 border-right-0 border-left-0 border-bottom border-dark" asp-action="BatchManagement">
+                <span data-feather="file"></span>Batch
+            </a>
+        </li>
+        <li class="nav-item">
             <a class="@(action == "WarehouseManagement" || action == "CreateWarehouse" || action == "UpdateWarehouse" ? "active active-sidebar" : "") side-bar-item list-group-item list-group-item-action border-top-0 border-right-0 border-left-0 border-bottom border-dark" asp-action="WarehouseManagement">
                 <span data-feather="file"></span>Warehouse
             </a>

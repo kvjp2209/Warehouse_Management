@@ -62,7 +62,9 @@ namespace Web_Client.Controllers
             var sessionAccount = HttpContext.Session.GetObjectFromJson<LoginResponseDTO>("sessionAccount");
 
             p.SupplierId = (long)sessionAccount.UserId;
-            p.WarehouseId = 1;
+
+            var product = await APIHelper.GetAsync<ProductResponseDTO>(rootApiUrl + "Product/" + p.ProductId , sessionAccount.Token);
+            p.WarehouseId = product.WarehouseId;
             var res = await APIHelper.PostAsync<BatchRequestDTO, ApiResponse>(rootApiUrl + "Batch", p, sessionAccount.Token);
             BuildTempDataMessage(res);
             return RedirectToAction("BatchManagement");
